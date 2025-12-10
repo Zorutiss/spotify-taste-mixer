@@ -2,11 +2,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-
+//Recibe accesToken desde el dashboard para autenticar las solicidtudes a la API
 export default function ArtistWidget({ accessToken }) {
+
+  //Cargar artistas
   const [artists, setArtists] = useState([]);
+
+  //Concretamos que estamos del lado del cliente
   const [isClient, setIsClient] = useState(false);
+
+  //Carga de datos
   const [loading, setLoading] = useState(true); 
+
+  //Manejo de errores
   const [error, setError] = useState(null);  
 
   useEffect(() => {
@@ -15,6 +23,7 @@ export default function ArtistWidget({ accessToken }) {
 
   useEffect(() => {
     if (accessToken && isClient) {
+      //Conexión a la API
       const fetchArtists = async () => {
         try {
           setLoading(true); 
@@ -27,7 +36,7 @@ export default function ArtistWidget({ accessToken }) {
           
           console.log("Respuesta de Spotify:", response.data);
 
-          
+          //Comprobación de datos recibidos
           if (response && response.data && response.data.items && response.data.items.length > 0) {
             setArtists(response.data.items);
           } else {
@@ -49,6 +58,7 @@ export default function ArtistWidget({ accessToken }) {
     return null;
   }
 
+  //Cargamos los artistas
   return (
     <div className="widget">
       {loading ? (
