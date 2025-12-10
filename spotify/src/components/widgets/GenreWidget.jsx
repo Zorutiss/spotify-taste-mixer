@@ -4,6 +4,7 @@ import { useState } from 'react';
 import '../style/GenreWidget.css';
 
 export default function GenreWidget() {
+  //Lista de géneros de música
   const genres = [
     'acoustic', 'afrobeat', 'alt-rock', 'alternative', 'ambient', 'anime', 'black-metal', 'bluegrass', 
     'blues', 'bossanova', 'brazil', 'breakbeat', 'british', 'cantopop', 'chicago-house', 'children', 
@@ -21,10 +22,12 @@ export default function GenreWidget() {
     'techno', 'trance', 'trip-hop', 'turkish', 'work-out', 'world-music'
   ];
 
+  //Selección de géneros
   const [selectedGenres, setSelectedGenres] = useState([]);
+  //Búsqueda por parte del usuario
   const [searchTerm, setSearchTerm] = useState('');
 
- 
+  //Manejo de selección de género
   const handleGenreSelect = (genre) => {
     if (selectedGenres.includes(genre)) {
       setSelectedGenres(selectedGenres.filter((item) => item !== genre));
@@ -33,7 +36,7 @@ export default function GenreWidget() {
     }
   };
 
- 
+  //Filtrado por término de búsqued
   const filteredGenres = genres.filter((genre) =>
     genre.toLowerCase().includes(searchTerm.toLowerCase())
   );
