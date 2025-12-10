@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import './PopularityWidget.css';
+import '../style/PopularityWidget.css';
 
 export default function PopularityWidget() {
 

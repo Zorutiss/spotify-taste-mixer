@@ -1,20 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import './DecadeWidget.css';  // Importamos el CSS para el widget
+import '../style/DecadeWidget.css'
 
 export default function DecadeWidget() {
-  // Decadas disponibles
+  
   const decades = [
     '1950s', '1960s', '1970s', '1980s', '1990s', '2000s', '2010s', '2020s'
   ];
 
-  // Estado para las décadas seleccionadas
+ 
   const [selectedDecades, setSelectedDecades] = useState([]);
-  const [startYear, setStartYear] = useState('');  // Año de inicio para el rango
-  const [endYear, setEndYear] = useState('');    // Año de fin para el rango
+  const [startYear, setStartYear] = useState('');  
+  const [endYear, setEndYear] = useState('');  
 
-  // Manejar la selección de una década
+
   const handleDecadeSelect = (decade) => {
     setSelectedDecades((prevSelected) => {
       if (prevSelected.includes(decade)) {
@@ -24,7 +24,7 @@ export default function DecadeWidget() {
     });
   };
 
-  // Manejar el cambio de los años de rango
+  
   const handleYearChange = (e) => {
     if (e.target.name === 'startYear') {
       setStartYear(e.target.value);

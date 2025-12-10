@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import './MoodWidget.css';
+import '../style/MoodWidget.css';
 
 export default function MoodWidget() {
   

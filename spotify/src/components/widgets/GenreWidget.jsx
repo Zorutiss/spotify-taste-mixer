@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import './GenreWidget.css';
+import '../style/GenreWidget.css';
 
 export default function GenreWidget() {
   const genres = [

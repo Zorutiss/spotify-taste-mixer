@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import './TrackWidget.css';
+import '../style/TrackWidget.css';
 
 export default function TrackWidget({ accessToken }) {
   const [query, setQuery] = useState('');

@@ -65,7 +65,7 @@ export default function ArtistWidget({ accessToken }) {
               </li>
             ))
           ) : (
-            <p>No top artists found.</p>
+            <p>No se han encontrado artistas.</p>
           )}
         </ul>
       )}
