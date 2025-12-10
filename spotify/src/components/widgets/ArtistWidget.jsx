@@ -2,38 +2,48 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// función que coge de la api los artistas mas escuchados y te lo muestra
-export default function ArtistWidget() {
+
+export default function ArtistWidget({ accessToken }) {
   const [artists, setArtists] = useState([]);
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null);  
 
   useEffect(() => {
-    setIsClient(true);  
+    setIsClient(true);
   }, []);
 
   useEffect(() => {
-   
+    if (accessToken && isClient) {
       const fetchArtists = async () => {
-         const token = localStorage.getItem('spotify_token'); 
-
-          if (!token) {
-            console.log('No token found!');
-          return;
-      }
         try {
+          setLoading(true); 
           const response = await axios.get("https://api.spotify.com/v1/me/top/artists", {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${accessToken}`,
             },
           });
-          setArtists(response.data.items);
+
+          
+          console.log("Respuesta de Spotify:", response.data);
+
+          
+          if (response && response.data && response.data.items && response.data.items.length > 0) {
+            setArtists(response.data.items);
+          } else {
+            setError('No se encontraron artistas en tu lista de "Top Artists".');
+          }
         } catch (error) {
+          setError('Error al obtener artistas: ' + error.message);
           console.error("Error fetching artists:", error);
+        } finally {
+          setLoading(false);
         }
       };
+
       fetchArtists();
-    
-  }, []);
+    }
+  }, [accessToken, isClient]);
 
   if (!isClient) {
     return null;
@@ -41,18 +51,24 @@ export default function ArtistWidget() {
 
   return (
     <div className="widget">
-      <ul>
-        {artists.length > 0 ? (
-          artists.map((artist) => (
-            <li key={artist.id}>
-              <img src={artist.images[0]?.url} alt={artist.name} width={50} />
-              <span>{artist.name}</span>
-            </li>
-          ))
-        ) : (
-          <p>Loading artists...</p>
-        )}
-      </ul>
+      {loading ? (
+        <p>Loading artists...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <ul>
+          {artists.length > 0 ? (
+            artists.map((artist) => (
+              <li key={artist.id}>
+                <img src={artist.images[0]?.url} alt={artist.name} width={50} />
+                <span>{artist.name}</span>
+              </li>
+            ))
+          ) : (
+            <p>No top artists found.</p>
+          )}
+        </ul>
+      )}
     </div>
   );
 }
