@@ -1,5 +1,7 @@
 'use client';
 
+import './page.css'
+
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated, getSpotifyAuthUrl } from '@/lib/auth';
@@ -10,7 +12,7 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Si ya está autenticado, redirigir al dashboard
+    
     if (isAuthenticated()) {
       router.push('/dashboard');
     }
