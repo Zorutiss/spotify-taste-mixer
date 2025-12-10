@@ -24,11 +24,11 @@ export default function PopularityWidget() {
 
   return (
     <div className="popularity-widget">
-      <h3>Choose Popularity</h3>
+      <h3>Selecciona popularidad</h3>
 
  
       <div className="slider-container">
-        <label>Popularity: {popularity}</label>
+        <label>Popularidad: {popularity}</label>
         <input
           type="range"
           min="0"
@@ -40,7 +40,7 @@ export default function PopularityWidget() {
 
  
       <div className="category">
-        <p>Category: {getCategory()}</p>
+        <p>{getCategory()}</p>
       </div>
 
     

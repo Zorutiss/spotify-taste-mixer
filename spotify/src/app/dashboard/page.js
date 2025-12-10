@@ -14,6 +14,7 @@ import LogOut from '../../components/LogOut';
 import './page.css'; 
 
 export default function Dashboard() {
+  
   const router = useRouter();
   const [accessToken, setAccessToken] = useState(null);
 
@@ -23,6 +24,7 @@ export default function Dashboard() {
   const [selectedPopularity, setSelectedPopularity] = useState(50); 
   const [selectedTracks, setSelectedTracks] = useState([]);
 
+  //
   const updateGenres = (genres) => setSelectedGenres(genres);
   const updateDecades = (decades) => setSelectedDecades(decades);
   const updateMood = (mood) => setSelectedMood(mood);
