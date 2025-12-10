@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated, getSpotifyAuthUrl } from '@/lib/auth';
 import ArtistWidget from '../components/widgets/ArtistWidget';
+
 export default function Home() {
   const router = useRouter();
 

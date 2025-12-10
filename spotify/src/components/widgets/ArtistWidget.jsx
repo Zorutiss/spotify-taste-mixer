@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 // función que coge de la api los artistas mas escuchados y te lo muestra
-export default function ArtistWidget({ accessToken }) {
+export default function ArtistWidget() {
   const [artists, setArtists] = useState([]);
   const [isClient, setIsClient] = useState(false);
 
@@ -12,12 +12,18 @@ export default function ArtistWidget({ accessToken }) {
   }, []);
 
   useEffect(() => {
-    if (accessToken && isClient) {
+   
       const fetchArtists = async () => {
+         const token = localStorage.getItem('spotify_token'); 
+
+          if (!token) {
+            console.log('No token found!');
+          return;
+      }
         try {
           const response = await axios.get("https://api.spotify.com/v1/me/top/artists", {
             headers: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${token}`,
             },
           });
           setArtists(response.data.items);
@@ -26,8 +32,8 @@ export default function ArtistWidget({ accessToken }) {
         }
       };
       fetchArtists();
-    }
-  }, [accessToken, isClient]);
+    
+  }, []);
 
   if (!isClient) {
     return null;

@@ -1,4 +1,4 @@
-async function spotifyRequest(url) {
+export async function spotifyRequest(url) {
   const token = getAccessToken();
   
   if (!token) {

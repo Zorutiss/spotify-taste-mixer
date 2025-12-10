@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated } from '@/lib/auth'; 
-import ArtistWidget from '../../components/widgets/ArtistWidget.jsx';
+import ArtistWidget from '../../components/widgets/ArtistWidget';
 
 export default function Dashboard() {
   const router = useRouter();
@@ -24,8 +24,10 @@ export default function Dashboard() {
   }
 
    return (
-      <div>
+    <div className="dashboard-container">
+      <div className="widget">
         <ArtistWidget accessToken={accessToken} />
       </div>
+    </div>
   );
 }
