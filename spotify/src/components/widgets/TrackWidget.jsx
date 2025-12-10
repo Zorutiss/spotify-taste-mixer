@@ -78,12 +78,12 @@ export default function TrackWidget({ accessToken }) {
             </li>
           ))
         ) : (
-          <p>No tracks found.</p>
+          <p>No se han encontrado canciones</p>
         )}
       </ul>
 
       <div>
-        <h3>Selected Tracks:</h3>
+        <h3>Canciones elegidas:</h3>
         <ul>
           {selectedTracks.map((trackId) => {
             const track = tracks.find((track) => track.id === trackId);

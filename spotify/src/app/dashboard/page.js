@@ -6,6 +6,8 @@ import { isAuthenticated } from '@/lib/auth';
 import ArtistWidget from '../../components/widgets/ArtistWidget';
 import TrackWidget from '../../components/widgets/TrackWidget';  
 import GenreWidget from '../../components/widgets/GenreWidget';
+import DecadeWidget from '../../components/widgets/DecadeWidget';  
+import MoodWidget from '../../components/widgets/MoodWidget';
 import './page.css'; 
 
 export default function Dashboard() {
@@ -39,6 +41,14 @@ export default function Dashboard() {
 
       <div className="widget mt-6">
         <GenreWidget />
+      </div>
+
+      <div className="widget mt-6">
+        <DecadeWidget />
+      </div>
+
+      <div className="widget mt-6">
+        <MoodWidget />
       </div>
     </div>
   );

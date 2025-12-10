@@ -35,11 +35,11 @@ export default function DecadeWidget() {
 
   return (
     <div className="decade-widget">
-      <h3>Select Your Favorite Decades or Enter a Year Range</h3>
+      <h3>Elige década o rango de años</h3>
 
-      {/* Selector de décadas */}
+      
       <div className="decade-selector">
-        <h4>Select Decades</h4>
+        <h4>Décadas</h4>
         <div className="decade-list">
           {decades.map((decade) => (
             <div
@@ -53,16 +53,16 @@ export default function DecadeWidget() {
         </div>
       </div>
 
-      {/* Selector de rango de años */}
+      
       <div className="year-range">
-        <h4>Or Select a Year Range</h4>
+        <h4>Años</h4>
         <div className="year-inputs">
           <input
             type="number"
             name="startYear"
             value={startYear}
             onChange={handleYearChange}
-            placeholder="Start Year"
+            placeholder="Inicio"
             min="1900"
           />
           <span>-</span>
@@ -71,22 +71,22 @@ export default function DecadeWidget() {
             name="endYear"
             value={endYear}
             onChange={handleYearChange}
-            placeholder="End Year"
+            placeholder="Fin"
             min="1900"
           />
         </div>
       </div>
 
-      {/* Mostrar las décadas y rangos seleccionados */}
+      
       <div className="selected-decades">
-        <h4>Selected Decades:</h4>
+        <h4>Décadas seleccionadas:</h4>
         <ul>
           {selectedDecades.map((decade, index) => (
             <li key={index}>{decade}</li>
           ))}
         </ul>
         {startYear && endYear && (
-          <p>Year Range: {startYear} - {endYear}</p>
+          <p>Rango de años: {startYear} - {endYear}</p>
         )}
       </div>
     </div>
