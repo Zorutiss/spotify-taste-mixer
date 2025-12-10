@@ -4,13 +4,23 @@ import axios from 'axios';
 import '../style/TrackWidget.css';
 
 export default function TrackWidget({ accessToken }) {
+
+  //Manejamos la búsqueda
   const [query, setQuery] = useState('');
+
+  //Guardamos las canciones encontradas
   const [tracks, setTracks] = useState([]);
+
+  //Elegimos canciones
   const [selectedTracks, setSelectedTracks] = useState([]);
+
+  //Carga de canciones
   const [loading, setLoading] = useState(false);
+
+  //Manejo de errores
   const [error, setError] = useState(null);
 
-
+  //Búsqueda de canciones en Spotify
   const searchTracks = async () => {
     if (!query) return;
 
@@ -31,7 +41,7 @@ export default function TrackWidget({ accessToken }) {
     }
   };
 
- 
+  //Manejo de selección de canciones
   const handleTrackSelect = (trackId) => {
     setSelectedTracks((prevSelected) => {
       if (prevSelected.includes(trackId)) {
@@ -41,7 +51,7 @@ export default function TrackWidget({ accessToken }) {
     });
   };
 
-  
+  //Búsqueda cuando cambia lo que escribe el usuario
   useEffect(() => {
     if (query) {
       searchTracks();
