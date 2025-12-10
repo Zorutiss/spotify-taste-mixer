@@ -4,20 +4,20 @@ import { useState } from 'react';
 import '../style/MoodWidget.css';
 
 export default function MoodWidget() {
-  
+  //Valores que cambiará el usuario (empiezan en 50)
   const [energy, setEnergy] = useState(50);
-  const [valence, setValence] = useState(50);
+  const [relax, setRelax] = useState(50);
   const [danceability, setDanceability] = useState(50);
-  const [acousticness, setAcousticness] = useState(50);
+  const [melody, setMelody] = useState(50);
   const [mood, setMood] = useState('Happy');
 
-  
+  //Cambios de los deslizadores
   const handleEnergyChange = (e) => setEnergy(e.target.value);
-  const handleValenceChange = (e) => setValence(e.target.value);
+  const handleRelaxChange = (e) => setRelax(e.target.value);
   const handleDanceabilityChange = (e) => setDanceability(e.target.value);
-  const handleAcousticnessChange = (e) => setAcousticness(e.target.value);
+  const handleMelodyChange = (e) => setMelody(e.target.value);
 
-  
+  //Cambio en el estado de ánimo
   const handleMoodChange = (e) => setMood(e.target.value);
 
   return (
@@ -36,13 +36,13 @@ export default function MoodWidget() {
       </div>
 
       <div className="slider-container">
-        <label>Relax: {valence}</label>
+        <label>Relax: {relax}</label>
         <input 
           type="range" 
           min="0" 
           max="100" 
-          value={valence} 
-          onChange={handleValenceChange} 
+          value={relax} 
+          onChange={handleRelaxChange} 
         />
       </div>
 
@@ -58,13 +58,13 @@ export default function MoodWidget() {
       </div>
 
       <div className="slider-container">
-        <label>Melódico: {acousticness}</label>
+        <label>Melódico: {melody}</label>
         <input 
           type="range" 
           min="0" 
           max="100" 
-          value={acousticness} 
-          onChange={handleAcousticnessChange} 
+          value={melody} 
+          onChange={handleMelodyChange} 
         />
       </div>
 
@@ -82,9 +82,9 @@ export default function MoodWidget() {
         <h4>Tus elecciones:</h4>
         <p>Estado: {mood}</p>
         <p>Energía: {energy}</p>
-        <p>Relax: {valence}</p>
+        <p>Relax: {relax}</p>
         <p>Bailongo: {danceability}</p>
-        <p>Melódico: {acousticness}</p>
+        <p>Melódico: {melody}</p>
       </div>
     </div>
   );
