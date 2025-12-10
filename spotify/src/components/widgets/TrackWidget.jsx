@@ -4,44 +4,44 @@ import axios from 'axios';
 import './TrackWidget.css';
 
 export default function TrackWidget({ accessToken }) {
-  const [query, setQuery] = useState('');  // Estado para la consulta de búsqueda
-  const [tracks, setTracks] = useState([]);  // Estado para las canciones encontradas
-  const [selectedTracks, setSelectedTracks] = useState([]);  // Estado para las canciones seleccionadas
-  const [loading, setLoading] = useState(false);  // Estado de carga
-  const [error, setError] = useState(null);  // Estado de error
+  const [query, setQuery] = useState('');
+  const [tracks, setTracks] = useState([]);
+  const [selectedTracks, setSelectedTracks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Función para manejar la búsqueda de canciones
+
   const searchTracks = async () => {
-    if (!query) return;  // No hacer búsqueda si la consulta está vacía
+    if (!query) return;
 
-    setLoading(true);  // Iniciar carga
+    setLoading(true);
     try {
       const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${query}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setTracks(response.data.tracks.items);  // Guardar los resultados de la búsqueda
-      setError(null);  // Limpiar cualquier error anterior
+      setTracks(response.data.tracks.items);
+      setError(null);
     } catch (error) {
       setError('Error al obtener las canciones');
       console.error("Error fetching tracks:", error);
     } finally {
-      setLoading(false);  // Terminar carga
+      setLoading(false);
     }
   };
 
-  // Función para manejar la selección de canciones
+ 
   const handleTrackSelect = (trackId) => {
     setSelectedTracks((prevSelected) => {
       if (prevSelected.includes(trackId)) {
-        return prevSelected.filter((id) => id !== trackId);  // Desmarcar la canción si ya está seleccionada
+        return prevSelected.filter((id) => id !== trackId);
       }
-      return [...prevSelected, trackId];  // Agregar la canción a las seleccionadas
+      return [...prevSelected, trackId]; 
     });
   };
 
-  // Ejecutar la búsqueda cuando cambia la consulta
+  
   useEffect(() => {
     if (query) {
       searchTracks();
@@ -55,7 +55,7 @@ export default function TrackWidget({ accessToken }) {
           type="text"
           placeholder="Buscar canciones..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}  // Actualizar la consulta de búsqueda
+          onChange={(e) => setQuery(e.target.value)}
         />
       </div>
 

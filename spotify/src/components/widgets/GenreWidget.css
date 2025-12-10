@@ -1,0 +1,68 @@
+/* GenreWidget.css */
+
+/* Estilos generales del widget */
+.genre-widget {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: white;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.genre-widget h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.genre-search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #333;
+  color: white;
+}
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.genre-item {
+  background-color: #2c2c2c;
+  padding: 10px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.genre-item:hover {
+  background-color: #3b3b3b;
+}
+
+.genre-item.selected {
+  background-color: #4caf50;
+}
+
+.selected-genres {
+  margin-top: 20px;
+}
+
+.selected-genres ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.selected-genres li {
+  background-color: #333;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  color: white;
+}
