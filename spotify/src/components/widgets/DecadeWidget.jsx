@@ -9,12 +9,12 @@ export default function DecadeWidget() {
     '1950s', '1960s', '1970s', '1980s', '1990s', '2000s', '2010s', '2020s'
   ];
 
- 
+  //Estados de décadas y rango de años
   const [selectedDecades, setSelectedDecades] = useState([]);
   const [startYear, setStartYear] = useState('');  
   const [endYear, setEndYear] = useState('');  
 
-
+  //Selección de décadas
   const handleDecadeSelect = (decade) => {
     setSelectedDecades((prevSelected) => {
       if (prevSelected.includes(decade)) {
@@ -24,7 +24,7 @@ export default function DecadeWidget() {
     });
   };
 
-  
+  //Cambios en los años
   const handleYearChange = (e) => {
     if (e.target.name === 'startYear') {
       setStartYear(e.target.value);
