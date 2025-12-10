@@ -7,7 +7,8 @@ import ArtistWidget from '../../components/widgets/ArtistWidget';
 import TrackWidget from '../../components/widgets/TrackWidget';  
 import GenreWidget from '../../components/widgets/GenreWidget';
 import DecadeWidget from '../../components/widgets/DecadeWidget';  
-import MoodWidget from '../../components/widgets/MoodWidget';
+import MoodWidget from '../../components/widgets/MoodWidget';  
+import PopularityWidget from '../../components/widgets/PopularityWidget';
 import './page.css'; 
 
 export default function Dashboard() {
@@ -49,6 +50,10 @@ export default function Dashboard() {
 
       <div className="widget mt-6">
         <MoodWidget />
+      </div>
+
+      <div className="widget mt-6">
+        <PopularityWidget />
       </div>
     </div>
   );

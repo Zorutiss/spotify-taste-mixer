@@ -1,0 +1,58 @@
+
+.popularity-widget {
+  background-color: #1a1a1a;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: white;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.popularity-widget h3 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.slider-container {
+  margin-bottom: 20px;
+}
+
+.slider-container label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.slider-container input {
+  width: 100%;
+  margin-top: 5px;
+  background-color: #333;
+  border: none;
+  border-radius: 5px;
+  height: 8px;
+  appearance: none;
+}
+
+.slider-container input::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background-color: #1db954;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.category {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2rem;
+}
+
+.description {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1rem;
+  color: #bbb;
+}
