@@ -5,11 +5,13 @@ import '../style/PopularityWidget.css';
 
 export default function PopularityWidget() {
 
+  //Guardamos el valor de popularidad de canciones
   const [popularity, setPopularity] = useState(50);
   
-  
+  //Cambio en el deslizador
   const handlePopularityChange = (e) => setPopularity(e.target.value);
 
+  //Establecemos la popularidad en base al número
   const getCategory = () => {
     if (popularity >= 80) {
       return 'Mainstream (80-100)';
@@ -45,7 +47,7 @@ export default function PopularityWidget() {
       <div className="description">
         <p>
           Cuanta más pupularidad, más famosa se considera la canción.
-          Elige una categoría que se ajuste a tí:
+          Elige una categoría que se ajuste a lo que buscas:
         </p>
       </div>
     </div>
