@@ -36,7 +36,7 @@ export default function GenreWidget() {
     }
   };
 
-  //Filtrado por término de búsqued
+  //Filtrado por término de búsqueda
   const filteredGenres = genres.filter((genre) =>
     genre.toLowerCase().includes(searchTerm.toLowerCase())
   );

@@ -6,12 +6,12 @@ export default function LogOut() {
   const router = useRouter();
 
   const handleLogout = () => {
-   
+    //Eliminamos el token para que el usuario tenga que volver a iniciar sesión
     localStorage.removeItem('spotify_token');
     localStorage.removeItem('spotify_refresh_token');
     localStorage.removeItem('spotify_token_expiration');
 
-
+    //Devolvemos al usuario a la página inicial
     router.push('/');
     
     window.location.reload();
