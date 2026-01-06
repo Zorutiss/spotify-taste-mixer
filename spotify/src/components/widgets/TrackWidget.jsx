@@ -1,62 +1,65 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import '../style/TrackWidget.css';
 
-export default function TrackWidget({ accessToken }) {
-
-  //Manejamos la búsqueda
+export default function TrackWidget({ accessToken, selectedTracks, updateSelectedTracks }) {
   const [query, setQuery] = useState('');
-
-  //Guardamos las canciones encontradas
   const [tracks, setTracks] = useState([]);
-
-  //Elegimos canciones
-  const [selectedTracks, setSelectedTracks] = useState([]);
-
-  //Carga de canciones
   const [loading, setLoading] = useState(false);
-
-  //Manejo de errores
   const [error, setError] = useState(null);
 
-  //Búsqueda de canciones en Spotify
-  const searchTracks = async () => {
-    if (!query) return;
+  // Evitar spamear la API en cada tecla
+  const debounceRef = useRef(null);
+
+  const searchTracks = async (q) => {
+    if (!q?.trim()) {
+      setTracks([]);
+      return;
+    }
 
     setLoading(true);
     try {
-      const response = await axios.get(`https://api.spotify.com/v1/search?type=track&q=${query}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+      const response = await axios.get('https://api.spotify.com/v1/search', {
+        headers: { Authorization: `Bearer ${accessToken}` },
+        params: { type: 'track', q, limit: 20 },
       });
+
       setTracks(response.data.tracks.items);
       setError(null);
-    } catch (error) {
+    } catch (e) {
       setError('Error al obtener las canciones');
-      console.error("Error fetching tracks:", error);
+      console.error('Error fetching tracks:', e);
     } finally {
       setLoading(false);
     }
   };
 
-  //Manejo de selección de canciones
   const handleTrackSelect = (trackId) => {
-    setSelectedTracks((prevSelected) => {
-      if (prevSelected.includes(trackId)) {
-        return prevSelected.filter((id) => id !== trackId);
-      }
-      return [...prevSelected, trackId]; 
+    if (typeof updateSelectedTracks !== 'function') return;
+
+    updateSelectedTracks((prev) => {
+      // soporta que prev sea array (tu caso actual)
+      const arr = Array.isArray(prev) ? prev : [];
+      if (arr.includes(trackId)) return arr.filter((id) => id !== trackId);
+      return [...arr, trackId];
     });
   };
 
-  //Búsqueda cuando cambia lo que escribe el usuario
+  // Debounce de búsqueda
   useEffect(() => {
-    if (query) {
-      searchTracks();
-    }
-  }, [query]);
+    if (!accessToken) return;
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(() => {
+      searchTracks(query);
+    }, 250);
+
+    return () => clearTimeout(debounceRef.current);
+  }, [query, accessToken]);
+
+  const selected = Array.isArray(selectedTracks) ? selectedTracks : [];
 
   return (
     <div className="widget">
@@ -78,7 +81,7 @@ export default function TrackWidget({ accessToken }) {
             <li
               key={track.id}
               onClick={() => handleTrackSelect(track.id)}
-              className={`track-item ${selectedTracks.includes(track.id) ? 'selected' : ''}`}
+              className={`track-item ${selected.includes(track.id) ? 'selected' : ''}`}
             >
               <img src={track.album.images[0]?.url} alt={track.name} width={50} />
               <div>
@@ -88,20 +91,26 @@ export default function TrackWidget({ accessToken }) {
             </li>
           ))
         ) : (
-          <p>No se han encontrado canciones</p>
+          query ? <p>No se han encontrado canciones</p> : <p>Escribe para buscar canciones</p>
         )}
       </ul>
 
       <div>
         <h3>Canciones elegidas:</h3>
         <ul>
-          {selectedTracks.map((trackId) => {
-            const track = tracks.find((track) => track.id === trackId);
-            return track ? (
+          {selected.map((trackId) => {
+            const track = tracks.find((t) => t.id === trackId);
+            return (
               <li key={trackId}>
-                {track.name} - {track.artists.map((artist) => artist.name).join(', ')}
+                {track ? (
+                  <>
+                    {track.name} - {track.artists.map((a) => a.name).join(', ')}
+                  </>
+                ) : (
+                  <>Track ID: {trackId}</>
+                )}
               </li>
-            ) : null;
+            );
           })}
         </ul>
       </div>

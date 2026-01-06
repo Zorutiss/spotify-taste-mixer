@@ -19,7 +19,16 @@ export default function Dashboard() {
   const [accessToken, setAccessToken] = useState(null);
 
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedDecades, setSelectedDecades] = useState([]);
+
+  //DecadeWidget
+  const [selectedDecades, setSelectedDecades] = useState({
+  decades: [],
+  startYear: null,
+  endYear: null,
+  });
+  const updateDecades = (decades) => setSelectedDecades(decades);
+
+
 
   //MoodWidget
   const [selectedMood, setSelectedMood] = useState({
@@ -31,7 +40,7 @@ export default function Dashboard() {
   });
   const updateMood = (moodObj) => setSelectedMood(moodObj);
 
-
+  //PopularityWidget
   const [selectedPopularity, setSelectedPopularity] = useState(50); 
   const [selectedTracks, setSelectedTracks] = useState([]);
 
@@ -39,9 +48,7 @@ export default function Dashboard() {
   const [selectedArtists, setSelectedArtists] = useState([]);
   const updateSelectedArtists = (ids) => setSelectedArtists(ids);
 
-  //
   const updateGenres = (genres) => setSelectedGenres(genres);
-  const updateDecades = (decades) => setSelectedDecades(decades);
   const updatePopularity = (popularity) => setSelectedPopularity(popularity);
   const updateSelectedTracks = (tracks) => setSelectedTracks(tracks);
 
