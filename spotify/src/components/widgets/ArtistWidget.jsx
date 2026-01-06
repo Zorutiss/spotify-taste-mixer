@@ -15,10 +15,10 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
   const selectedArray = useMemo(() => Array.from(selectedIds), [selectedIds]);
 
   useEffect(() => {
-    if (typeof updateSelectedArtists === "function") {
-      updateSelectedArtists(selectedArray);
-    }
-  }, [selectedArray, updateSelectedArtists]);
+  if (typeof updateSelectedArtists === "function") {
+    updateSelectedArtists(selectedArray);
+  }
+}, [selectedArray]);
 
   useEffect(() => {
     if (!accessToken) return;

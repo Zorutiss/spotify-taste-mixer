@@ -20,7 +20,18 @@ export default function Dashboard() {
 
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedDecades, setSelectedDecades] = useState([]);
-  const [selectedMood, setSelectedMood] = useState('Energético'); 
+
+  //MoodWidget
+  const [selectedMood, setSelectedMood] = useState({
+  mood: "Happy",
+  energy: 50,
+  relax: 50,
+  danceability: 50,
+  melody: 50,
+  });
+  const updateMood = (moodObj) => setSelectedMood(moodObj);
+
+
   const [selectedPopularity, setSelectedPopularity] = useState(50); 
   const [selectedTracks, setSelectedTracks] = useState([]);
 
@@ -31,7 +42,6 @@ export default function Dashboard() {
   //
   const updateGenres = (genres) => setSelectedGenres(genres);
   const updateDecades = (decades) => setSelectedDecades(decades);
-  const updateMood = (mood) => setSelectedMood(mood);
   const updatePopularity = (popularity) => setSelectedPopularity(popularity);
   const updateSelectedTracks = (tracks) => setSelectedTracks(tracks);
 
