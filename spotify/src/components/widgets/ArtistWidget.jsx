@@ -91,11 +91,6 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
         <p>{error}</p>
       ) : (
         <>
-          {usedRange && (
-            <p style={{ opacity: 0.8 }}>
-              Fuente: me/top/artists ({usedRange})
-            </p>
-          )}
           <ul>
             {artists.map((artist) => {
               const checked = selectedIds.has(artist.id);
