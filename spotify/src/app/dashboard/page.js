@@ -24,6 +24,10 @@ export default function Dashboard() {
   const [selectedPopularity, setSelectedPopularity] = useState(50); 
   const [selectedTracks, setSelectedTracks] = useState([]);
 
+  //ArtistWidget
+  const [selectedArtists, setSelectedArtists] = useState([]);
+  const updateSelectedArtists = (ids) => setSelectedArtists(ids);
+
   //
   const updateGenres = (genres) => setSelectedGenres(genres);
   const updateDecades = (decades) => setSelectedDecades(decades);
@@ -55,9 +59,9 @@ export default function Dashboard() {
 
 
       <div className="widget">
-        <ArtistWidget 
-          accessToken={accessToken} 
-          updateSelectedTracks={updateSelectedTracks} 
+        <ArtistWidget
+          accessToken={accessToken}
+          updateSelectedArtists={updateSelectedArtists}
         />
       </div>
 
