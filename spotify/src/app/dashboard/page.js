@@ -9,6 +9,7 @@ import GenreWidget from '../../components/widgets/GenreWidget';
 import DecadeWidget from '../../components/widgets/DecadeWidget';  
 import MoodWidget from '../../components/widgets/MoodWidget';  
 import PopularityWidget from '../../components/widgets/PopularityWidget';  
+import PlaylistWidget from '../../components/widgets/PlaylistWidget';
 import LogOut from '../../components/LogOut'; 
 
 import './page.css'; 
@@ -104,6 +105,17 @@ export default function Dashboard() {
 
       <div className="widget mt-6">
         <PopularityWidget updatePopularity={updatePopularity} /> 
+      </div>
+      <div className="widget mt-6">
+        <PlaylistWidget
+          accessToken={accessToken}
+          selectedArtists={selectedArtists}
+          selectedGenres={selectedGenres}
+          selectedTracks={selectedTracks}
+          selectedMood={selectedMood}
+          selectedDecades={selectedDecades}
+          selectedPopularity={selectedPopularity}
+        />
       </div>
     </div>
   );
