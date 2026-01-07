@@ -1,8 +1,16 @@
 'use client';
-import { useEffect, useMemo, useState } from "react";
-import axios from "axios";
 
-const TIME_RANGES = ["short_term", "medium_term", "long_term"];
+import { useEffect, useMemo, useState } from 'react';
+import axios from 'axios';
+
+const TIME_RANGES = ['short_term', 'medium_term', 'long_term'];
+
+function rangeLabel(r) {
+  if (r === 'short_term') return 'Últimas semanas';
+  if (r === 'medium_term') return 'Últimos meses';
+  if (r === 'long_term') return 'De siempre';
+  return r;
+}
 
 export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
   const [artists, setArtists] = useState([]);
@@ -15,10 +23,10 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
   const selectedArray = useMemo(() => Array.from(selectedIds), [selectedIds]);
 
   useEffect(() => {
-  if (typeof updateSelectedArtists === "function") {
-    updateSelectedArtists(selectedArray);
-  }
-}, [selectedArray]);
+    if (typeof updateSelectedArtists === 'function') {
+      updateSelectedArtists(selectedArray);
+    }
+  }, [selectedArray]);
 
   useEffect(() => {
     if (!accessToken) return;
@@ -31,13 +39,13 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
         setUsedRange(null);
 
         for (const time_range of TIME_RANGES) {
-          const res = await axios.get("https://api.spotify.com/v1/me/top/artists", {
+          const res = await axios.get('https://api.spotify.com/v1/me/top/artists', {
             headers: { Authorization: `Bearer ${accessToken}` },
             params: { limit: 20, time_range },
           });
 
           const items = res?.data?.items ?? [];
-          console.log("TOP ARTISTS", time_range, "items:", items.length, res.data);
+          console.log('TOP ARTISTS', time_range, 'items:', items.length, res.data);
 
           if (items.length > 0) {
             setArtists(items);
@@ -46,24 +54,19 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
           }
         }
 
-        setError('Spotify no devuelve "Top Artists" en ningún rango (short/medium/long). Prueba a escuchar música un rato con la cuenta o usa otra fuente (p.ej. búsqueda manual).');
+        setError(
+          'Spotify no devuelve "Top Artists" en ningún rango (short/medium/long). Prueba a escuchar música un rato con la cuenta o usa otra fuente (búsqueda manual).'
+        );
       } catch (err) {
         const status = err?.response?.status;
-        const msg =
-          err?.response?.data?.error?.message ||
-          err?.message ||
-          "Error desconocido";
+        const msg = err?.response?.data?.error?.message || err?.message || 'Error desconocido';
 
-        if (status === 403) {
-          setError(`403 (scope insuficiente). Necesitas "user-top-read". Detalle: ${msg}`);
-        } else if (status === 401) {
-          setError(`401 (token inválido/expirado). Detalle: ${msg}`);
-        } else {
-          setError(`Error al obtener artistas: ${msg}`);
-        }
+        if (status === 403) setError(`403 (scope insuficiente). Necesitas "user-top-read". Detalle: ${msg}`);
+        else if (status === 401) setError(`401 (token inválido/expirado). Detalle: ${msg}`);
+        else setError(`Error al obtener artistas: ${msg}`);
 
-        console.log("Spotify error status:", status);
-        console.log("Spotify error data:", err?.response?.data);
+        console.log('Spotify error status:', status);
+        console.log('Spotify error data:', err?.response?.data);
       } finally {
         setLoading(false);
       }
@@ -73,7 +76,7 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
   }, [accessToken]);
 
   const toggleArtist = (artistId) => {
-    setSelectedIds(prev => {
+    setSelectedIds((prev) => {
       const next = new Set(prev);
       if (next.has(artistId)) next.delete(artistId);
       else next.add(artistId);
@@ -81,46 +84,107 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
     });
   };
 
+  const clearSelection = () => setSelectedIds(new Set());
+
   return (
-    <div className="widget">
-      <h3>Top Artists</h3>
+    <div className="flex flex-col gap-4">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h3 className="text-lg font-semibold text-white">Top Artists</h3>
+          <p className="text-sm text-white/60">
+            Fuente: <span className="font-medium text-white/70">me/top/artists</span>
+            {usedRange ? ` (${rangeLabel(usedRange)})` : ''}
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={clearSelection}
+          disabled={selectedArray.length === 0}
+          className="rounded-full px-3 py-1 text-xs font-medium
+                     bg-zinc-800 text-white/80 hover:bg-zinc-700
+                     disabled:opacity-40 disabled:hover:bg-zinc-800"
+        >
+          Limpiar
+        </button>
+      </div>
 
       {loading ? (
-        <p>Loading artists...</p>
+        <div className="space-y-2">
+          <div className="h-10 rounded-lg bg-zinc-800/60 animate-pulse" />
+          <div className="h-10 rounded-lg bg-zinc-800/60 animate-pulse" />
+          <div className="h-10 rounded-lg bg-zinc-800/60 animate-pulse" />
+          <p className="text-sm text-white/50">Cargando artistas…</p>
+        </div>
       ) : error ? (
-        <p>{error}</p>
+        <div className="rounded-xl bg-red-500/10 ring-1 ring-red-500/20 p-3">
+          <p className="text-sm text-red-200">{error}</p>
+        </div>
       ) : (
-        <>
-          <ul>
+        <div className="max-h-72 overflow-y-auto rounded-xl bg-zinc-950/40 ring-1 ring-white/10">
+          <ul className="divide-y divide-white/5">
             {artists.map((artist) => {
               const checked = selectedIds.has(artist.id);
+              const img = artist.images?.[0]?.url;
+
               return (
-                <li
-                  key={artist.id}
-                  style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={checked}
-                    onChange={() => toggleArtist(artist.id)}
-                  />
-                  <img
-                    src={artist.images?.[0]?.url}
-                    alt={artist.name}
-                    width={40}
-                    height={40}
-                  />
-                  <span>{artist.name}</span>
+                <li key={artist.id}>
+                  <label
+                    className="flex cursor-pointer items-center gap-3 px-3 py-2 hover:bg-white/5"
+                    onClick={(e) => {
+                      if (e.target?.tagName?.toLowerCase() === 'input') return;
+                      toggleArtist(artist.id);
+                    }}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={() => toggleArtist(artist.id)}
+                      className="h-4 w-4 accent-emerald-500"
+                    />
+
+                    <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-zinc-800 ring-1 ring-white/10">
+                      {img ? (
+                        <img src={img} alt={artist.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="h-full w-full" />
+                      )}
+                    </div>
+
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-medium text-white">{artist.name}</p>
+                      <p className="truncate text-xs text-white/50">
+                        {artist.genres?.slice(0, 3)?.join(' · ') || '—'}
+                      </p>
+                    </div>
+                  </label>
                 </li>
               );
             })}
           </ul>
-        </>
+        </div>
       )}
 
-      <p style={{ marginTop: 10 }}>
-        Seleccionados: {selectedArray.length}
-      </p>
+      <div className="flex flex-col gap-2">
+        <p className="text-sm text-white/70">
+          Seleccionados: <span className="font-semibold text-white">{selectedArray.length}</span>
+        </p>
+
+        {selectedArray.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {selectedArray.slice(0, 10).map((id) => (
+              <span key={id} className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs text-emerald-400">
+                {id.slice(0, 8)}…
+              </span>
+            ))}
+            {selectedArray.length > 10 && (
+              <span className="rounded-full bg-zinc-800 px-3 py-1 text-xs text-white/70">
+                +{selectedArray.length - 10} más
+              </span>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
