@@ -93,8 +93,13 @@ export default function TrackWidget({ accessToken, selectedTracks, updateSelecte
         />
 
         <div className="flex items-center justify-between text-xs text-white/50">
-          <span>{query?.trim() ? `Resultados para: "${query.trim()}"` : 'Escribe para buscar'}</span>
-          <span>Seleccionadas: <span className="text-white/80 font-semibold">{selected.length}</span></span>
+          <span>
+            {query?.trim() ? `Resultados para: "${query.trim()}"` : ''}
+          </span>
+          <span>
+            Seleccionadas:{' '}
+            <span className="text-white/80 font-semibold">{selected.length}</span>
+          </span>
         </div>
       </div>
 
@@ -132,11 +137,19 @@ export default function TrackWidget({ accessToken, selectedTracks, updateSelecte
                       ].join(' ')}
                     >
                       <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-zinc-800 ring-1 ring-white/10">
-                        {img ? <img src={img} alt={track.name} className="h-full w-full object-cover" /> : null}
+                        {img ? (
+                          <img
+                            src={img}
+                            alt={track.name}
+                            className="h-full w-full object-cover"
+                          />
+                        ) : null}
                       </div>
 
                       <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-white">{track.name}</p>
+                        <p className="truncate text-sm font-medium text-white">
+                          {track.name}
+                        </p>
                         <p className="truncate text-xs text-white/50">
                           {track.artists?.map((a) => a.name).join(', ')}
                         </p>
@@ -160,9 +173,11 @@ export default function TrackWidget({ accessToken, selectedTracks, updateSelecte
               })}
             </ul>
           ) : (
-            <div className="p-4 text-sm text-white/50">
-              {query?.trim() ? 'No se han encontrado canciones.' : 'Empieza escribiendo para buscar canciones.'}
-            </div>
+            query?.trim() && (
+              <div className="p-4 text-sm text-white/50">
+                No se han encontrado canciones.
+              </div>
+            )
           )}
         </div>
       )}
@@ -174,7 +189,10 @@ export default function TrackWidget({ accessToken, selectedTracks, updateSelecte
         ) : (
           <div className="mt-2 flex flex-wrap gap-2">
             {selected.slice(0, 12).map((id) => (
-              <span key={id} className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs text-emerald-400">
+              <span
+                key={id}
+                className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs text-emerald-400"
+              >
                 {id.slice(0, 8)}…
               </span>
             ))}

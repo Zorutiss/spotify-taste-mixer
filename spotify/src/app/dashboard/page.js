@@ -69,13 +69,6 @@ export default function Dashboard() {
   return (
     <div className="dashboard-container">
       <h2>Spotify</h2>
-
-
-      <div className="widget mt-6">
-        <LogOut />
-      </div>
-
-
       <div className="widget">
         <ArtistWidget
           accessToken={accessToken}
@@ -116,6 +109,9 @@ export default function Dashboard() {
           selectedDecades={selectedDecades}
           selectedPopularity={selectedPopularity}
         />
+      </div>
+      <div className="widget mt-6">
+        <LogOut />
       </div>
     </div>
   );

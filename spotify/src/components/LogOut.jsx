@@ -15,16 +15,16 @@ export default function LogOut() {
   };
 
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-center">
       <button
         type="button"
         onClick={handleLogout}
         className="
           w-full sm:w-auto
           rounded-full
-          bg-red-500/90 px-5 py-2
+          bg-red-500/90 px-6 py-2
           text-sm font-semibold text-white
-          ring-1 ring-red-400/40
+          ring-1 ring-red-400/4
           hover:bg-red-500
           transition
         "

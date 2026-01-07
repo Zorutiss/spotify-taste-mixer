@@ -20,12 +20,12 @@ export default function Home() {
     <main className="home-container">
       <h1>Spotify Taste Mixer</h1>
       <p className="home-subtitle">
-        Crea una playlist personalizada combinando artistas, géneros, década, mood y popularidad.
+        Crea una playlist personalizada combinando artistas, géneros, década, estado de ánimo y popularidad.
       </p>
 
       {!isAuthenticated() && (
         <button className="spotify-btn" onClick={handleLogin}>
-          Login with Spotify
+          Iniciar sesión
         </button>
       )}
     </main>
