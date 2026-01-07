@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from 'react';
 
-
 function clampInt(x, min, max, fallback) {
   const n = Number(x);
   if (!Number.isFinite(n)) return fallback;
@@ -57,7 +56,6 @@ async function spotifyFetch(url, accessToken, options = {}) {
   return data ?? {};
 }
 
-
 export default function PlaylistWidget({
   accessToken,
   selectedArtists,
@@ -70,6 +68,7 @@ export default function PlaylistWidget({
   const [preview, setPreview] = useState([]);
   const [error, setError] = useState(null);
   const [created, setCreated] = useState(null);
+  const [playlistName, setPlaylistName] = useState('');
 
   const seeds = useMemo(
     () => buildSeeds({ selectedArtists, selectedGenres }),
@@ -87,7 +86,6 @@ export default function PlaylistWidget({
   );
 
   const totalSeeds = seeds.seed_artists.length + seeds.seed_genres.length;
-
 
   const filterTracks = (tracks) => {
     const minP = Math.max(0, popularity - 20);
@@ -154,7 +152,9 @@ export default function PlaylistWidget({
 
       const me = await spotifyFetch('https://api.spotify.com/v1/me', accessToken);
 
-      const name = `Taste Mixer · ${selectedMood?.mood || 'Custom'}`;
+      const finalName =
+        playlistName.trim() ||
+        `Taste Mixer · ${selectedMood?.mood || 'Custom'}`;
 
       const playlist = await spotifyFetch(
         `https://api.spotify.com/v1/users/${me.id}/playlists`,
@@ -162,7 +162,7 @@ export default function PlaylistWidget({
         {
           method: 'POST',
           body: JSON.stringify({
-            name,
+            name: finalName,
             public: false,
             description: 'Playlist privada generada con Spotify Taste Mixer',
           }),
@@ -176,7 +176,7 @@ export default function PlaylistWidget({
         { method: 'POST', body: JSON.stringify({ uris }) }
       );
 
-      setCreated({ name, url: playlist.external_urls.spotify, count: uris.length });
+      setCreated({ name: finalName, url: playlist.external_urls.spotify, count: uris.length });
     } catch (e) {
       setError(e.message);
     } finally {
@@ -184,15 +184,21 @@ export default function PlaylistWidget({
     }
   };
 
-
   return (
     <div className="flex flex-col gap-4">
       <h3 className="text-lg font-semibold text-white">Playlist</h3>
 
-      <div className="text-sm text-white/70 space-y-1">
-        <div>Seeds: {totalSeeds}</div>
-        <div>Popularidad objetivo: {popularity}</div>
-        {decadeInfo.startYear && <div>Años: {decadeInfo.startYear}–{decadeInfo.endYear}</div>}
+      <div className="flex flex-col gap-1">
+        <label className="text-sm text-white/70">Nombre de la playlist</label>
+        <input
+          type="text"
+          placeholder={`Taste Mixer · ${selectedMood?.mood || 'Custom'}`}
+          value={playlistName}
+          onChange={(e) => setPlaylistName(e.target.value)}
+          className="w-full rounded-lg bg-zinc-800 px-3 py-2 text-sm text-white
+                     placeholder:text-white/40 ring-1 ring-white/10
+                     focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        />
       </div>
 
       <div className="flex flex-wrap gap-2">
@@ -222,7 +228,7 @@ export default function PlaylistWidget({
       {created && (
         <div className="rounded-lg bg-emerald-500/10 p-3 text-sm text-emerald-300 ring-1 ring-emerald-500/20">
           Playlist creada: <strong>{created.name}</strong> ({created.count} canciones) ·{' '}
-          <a href={created.url} target="_blank" className="underline">Abrir</a>
+          <a href={created.url} target="_blank" rel="noreferrer" className="underline">Abrir</a>
         </div>
       )}
 
