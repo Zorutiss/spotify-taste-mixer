@@ -2,18 +2,21 @@
 
 import { useMemo, useState } from 'react';
 
+//Validación de parámetros enviados a la API
 function clampInt(x, min, max, fallback) {
   const n = Number(x);
   if (!Number.isFinite(n)) return fallback;
   return Math.max(min, Math.min(max, n));
 }
 
+//Extración de fechas de la API
 function parseYear(releaseDate) {
   if (!releaseDate) return null;
   const y = Number(String(releaseDate).slice(0, 4));
   return Number.isFinite(y) ? y : null;
 }
 
+//Evitar duplicados en la playlist
 function uniqById(tracks) {
   const seen = new Set();
   const out = [];
@@ -25,6 +28,7 @@ function uniqById(tracks) {
   return out;
 }
 
+//Construcción de una semilla a partir de los datos del usuario
 function buildSeeds({ selectedArtists, selectedGenres }) {
   return {
     seed_artists: (Array.isArray(selectedArtists) ? selectedArtists : []).slice(0, 5),
@@ -164,7 +168,7 @@ export default function PlaylistWidget({
           body: JSON.stringify({
             name: finalName,
             public: false,
-            description: 'Playlist privada generada con Spotify Taste Mixer',
+            description: 'Playlist privada generada',
           }),
         }
       );

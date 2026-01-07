@@ -19,7 +19,9 @@ export default function Dashboard() {
   const router = useRouter();
   const [accessToken, setAccessToken] = useState(null);
 
+  //GenreWidget
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const updateGenres = (genres) => setSelectedGenres(genres);
 
   //DecadeWidget
   const [selectedDecades, setSelectedDecades] = useState({
@@ -43,14 +45,14 @@ export default function Dashboard() {
 
   //PopularityWidget
   const [selectedPopularity, setSelectedPopularity] = useState(50); 
-  const [selectedTracks, setSelectedTracks] = useState([]);
+  const updatePopularity = (popularity) => setSelectedPopularity(popularity);
 
   //ArtistWidget
   const [selectedArtists, setSelectedArtists] = useState([]);
   const updateSelectedArtists = (ids) => setSelectedArtists(ids);
 
-  const updateGenres = (genres) => setSelectedGenres(genres);
-  const updatePopularity = (popularity) => setSelectedPopularity(popularity);
+  //TrackWidget
+  const [selectedTracks, setSelectedTracks] = useState([]);
   const updateSelectedTracks = (tracks) => setSelectedTracks(tracks);
 
   useEffect(() => {

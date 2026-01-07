@@ -6,8 +6,6 @@ import axios from 'axios';
 const TIME_RANGES = ['short_term', 'medium_term', 'long_term'];
 
 function rangeLabel(r) {
-  if (r === 'short_term') return 'Últimas semanas';
-  if (r === 'medium_term') return 'Últimos meses';
   if (r === 'long_term') return 'De siempre';
   return r;
 }
@@ -31,6 +29,7 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
   useEffect(() => {
     if (!accessToken) return;
 
+    //Búsqueda de artistas
     const fetchWithFallback = async () => {
       try {
         setLoading(true);
@@ -55,7 +54,7 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
         }
 
         setError(
-          'Spotify no devuelve "Top Artists" en ningún rango (short/medium/long). Prueba a escuchar música un rato con la cuenta o usa otra fuente (búsqueda manual).'
+          'Spotify no devuelve "Top Artists". Prueba a escuchar música un rato.'
         );
       } catch (err) {
         const status = err?.response?.status;
@@ -75,6 +74,7 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
     fetchWithFallback();
   }, [accessToken]);
 
+
   const toggleArtist = (artistId) => {
     setSelectedIds((prev) => {
       const next = new Set(prev);
@@ -90,11 +90,7 @@ export default function ArtistWidget({ accessToken, updateSelectedArtists }) {
     <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <h3 className="text-lg font-semibold text-white">Top Artists</h3>
-          <p className="text-sm text-white/60">
-            Fuente: <span className="font-medium text-white/70">me/top/artists</span>
-            {usedRange ? ` (${rangeLabel(usedRange)})` : ''}
-          </p>
+          <h3 className="text-lg font-semibold text-white">Tus artistas top</h3>
         </div>
 
         <button

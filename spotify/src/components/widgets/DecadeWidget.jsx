@@ -31,6 +31,7 @@ export default function DecadeWidget({ updateDecades }) {
     }
   }, [selectedDecades, startYear, endYear]);
 
+  //Comprobación de que ambos años son valores válidos
   const hasRange = Boolean(startYear && endYear);
 
   return (

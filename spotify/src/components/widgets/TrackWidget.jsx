@@ -37,7 +37,7 @@ export default function TrackWidget({ accessToken, selectedTracks, updateSelecte
       setLoading(false);
     }
   };
-
+  //Añadir y quitar canciones
   const handleTrackToggle = (trackId) => {
     if (typeof updateSelectedTracks !== 'function') return;
 
